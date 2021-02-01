@@ -1652,7 +1652,7 @@ int main(int argc, char *argv[])
       {
         static int count;
         if ((count++ & 7) == 0)
-           printf("M:%8.0f V:%6.2fs %6dk/%6dk A:%6.2f %6.02fs/%6.02fs Cv:%6dk Ca:%6dk                            \r", stamp,
+           fprintf(stderr, "M:%.0f V:%.2fs %dk/%dk A:%.2f %.02fs/%.02fs Cv:%dk Ca:%dk\n", stamp,
                video_fifo, (m_player_video.GetDecoderBufferSize()-m_player_video.GetDecoderFreeSpace())>>10, m_player_video.GetDecoderBufferSize()>>10,
                audio_fifo, m_player_audio.GetDelay(), m_player_audio.GetCacheTotal(),
                m_player_video.GetCached()>>10, m_player_audio.GetCached()>>10);
@@ -1830,12 +1830,12 @@ int main(int argc, char *argv[])
 
 do_exit:
   if (m_stats)
-    printf("\n");
+    fprintf(stderr, "\n");
 
   if (m_stop)
   {
     unsigned t = (unsigned)(m_av_clock->OMXMediaTime()*1e-6);
-    printf("Stopped at: %02d:%02d:%02d\n", (t/3600), (t/60)%60, t%60);
+    fprintf(stderr, "Stopped at: %02d:%02d:%02d\n", (t/3600), (t/60)%60, t%60);
   }
 
   if (m_NativeDeinterlace)
@@ -1876,7 +1876,7 @@ do_exit:
   g_OMX.Deinitialize();
   g_RBP.Deinitialize();
 
-  printf("have a nice day ;)\n");
+  fprintf(stderr, "have a nice day ;)\n");
 
   // exit status success on playback end
   if (m_send_eos)

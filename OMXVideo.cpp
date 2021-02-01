@@ -132,7 +132,7 @@ void COMXVideo::PortSettingsChangedLogger(OMX_PARAM_PORTDEFINITIONTYPE port_imag
       port_image.format.video.xFramerate / (float)(1<<16), interlaceEMode, m_deinterlace, m_config.anaglyph, m_pixel_aspect, m_config.display,
       m_config.layer, m_config.alpha, m_config.aspectMode);
 
-  printf("V:PortSettingsChanged: %dx%d@%.2f interlace:%d deinterlace:%d anaglyph:%d par:%.2f display:%d layer:%d alpha:%d aspectMode:%d\n",
+  fprintf(stderr, "V:PortSettingsChanged: %dx%d@%.2f interlace:%d deinterlace:%d anaglyph:%d par:%.2f display:%d layer:%d alpha:%d aspectMode:%d\n",
       port_image.format.video.nFrameWidth, port_image.format.video.nFrameHeight,
       port_image.format.video.xFramerate / (float)(1<<16), interlaceEMode, m_deinterlace, m_config.anaglyph, m_pixel_aspect, m_config.display,
       m_config.layer, m_config.alpha, m_config.aspectMode);
@@ -218,8 +218,8 @@ bool COMXVideo::PortSettingsChanged()
   configDisplay.layer = m_config.layer;
   configDisplay.transform = m_transform;
 
-  if (!(m_config.dst_rect.x2 > m_config.dst_rect.x1 && m_config.dst_rect.y2 > m_config.dst_rect.y1))
-    configDisplay.alpha |= OMX_DISPLAY_ALPHA_FLAGS_DISCARD_LOWER_LAYERS;
+  // if (!(m_config.dst_rect.x2 > m_config.dst_rect.x1 && m_config.dst_rect.y2 > m_config.dst_rect.y1))
+  //   configDisplay.alpha |= OMX_DISPLAY_ALPHA_FLAGS_DISCARD_LOWER_LAYERS;
 
   omx_err = m_omx_render.SetConfig(OMX_IndexConfigDisplayRegion, &configDisplay);
   if(omx_err != OMX_ErrorNone)
@@ -916,8 +916,8 @@ void COMXVideo::SetAlpha(int alpha)
   configDisplay.set = OMX_DISPLAY_SET_ALPHA;
   configDisplay.alpha = alpha;
 
-  if (!(m_config.dst_rect.x2 > m_config.dst_rect.x1 && m_config.dst_rect.y2 > m_config.dst_rect.y1))
-    configDisplay.alpha |= OMX_DISPLAY_ALPHA_FLAGS_DISCARD_LOWER_LAYERS;
+  // if (!(m_config.dst_rect.x2 > m_config.dst_rect.x1 && m_config.dst_rect.y2 > m_config.dst_rect.y1))
+  //   configDisplay.alpha |= OMX_DISPLAY_ALPHA_FLAGS_DISCARD_LOWER_LAYERS;
 
   omx_err = m_omx_render.SetConfig(OMX_IndexConfigDisplayRegion, &configDisplay);
   if(omx_err != OMX_ErrorNone)
